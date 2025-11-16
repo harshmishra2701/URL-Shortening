@@ -1,0 +1,7 @@
+# URL Shortener Requirements
+# This project uses only Python standard library
+# No external dependencies required for core functionality
+
+# Optional: For testing (if you want to add unit tests)
+# pytest>=7.4.0
+# pytest-cov>=4.1.0
