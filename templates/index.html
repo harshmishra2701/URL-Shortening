@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>URL Shortener</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<h1>Short URL Generator</h1>
+
+<form method="POST">
+    <input type="text" name="original_url" placeholder="Enter URL" required>
+    <input type="text" name="custom_code" placeholder="Custom code (optional)">
+    <button type="submit">Shorten</button>
+</form>
+
+{% if new_url %}
+<p>Your Short URL: <a href="/{{ new_url.short_code }}">/{{ new_url.short_code }}</a></p>
+{% endif %}
+
+<h2>Recent URLs</h2>
+<ul>
+    {% for url in urls %}
+        <li>
+            {{ url.short_code }} → {{ url.original_url }}
+            (Visits: {{ url.visit_count }})
+            <a href="/delete/{{ url.short_code }}">Delete</a>
+        </li>
+    {% endfor %}
+</ul>
+
+</body>
+</html>
