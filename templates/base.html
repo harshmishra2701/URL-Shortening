@@ -1,0 +1,60 @@
+<!-- <!doctype html>
+
+<html lang="en">
+
+<head>
+
+	<meta charset="utf-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+	<title>{% block title %}{% endblock %}</title>
+
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <h1>Harsh's URL Shortener</h1>
+        <hr>
+        {% block content%}
+        {% endblock %}
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+    </body>
+</html> -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>URL Shortener</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<h1>Short URL Generator</h1>
+
+<form method="POST">
+    <input type="text" name="original_url" placeholder="Enter URL" required>
+    <input type="text" name="custom_code" placeholder="Custom code (optional)">
+    <button type="submit">Shorten</button>
+</form>
+
+{% if new_url %}
+<p>Your Short URL: <a href="/{{ new_url.short_code }}">/{{ new_url.short_code }}</a></p>
+{% endif %}
+
+<h2>Recent URLs</h2>
+<ul>
+    {% for url in urls %}
+        <li>
+            {{ url.short_code }} → {{ url.original_url }}
+            (Visits: {{ url.visit_count }})
+            <a href="/delete/{{ url.short_code }}">Delete</a>
+        </li>
+    {% endfor %}
+</ul>
+
+</body>
+</html>
