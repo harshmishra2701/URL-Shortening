@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Admin Panel</title>
+</head>
+<body>
+
+<h1>Admin – Import / Export JSON</h1>
+
+<form method="POST" enctype="multipart/form-data">
+    <input type="file" name="json_file" required>
+    <button type="submit">Upload JSON</button>
+</form>
+
+<br>
+
+<a href="/export">Download All URLs (JSON)</a>
+
+<h2>Stored URLs</h2>
+<ul>
+{% for url in urls %}
+    <li>{{ url.short_code }} — {{ url.original_url }} (Visits: {{ url.visit_count }})</li>
+{% endfor %}
+</ul>
+
+</body>
+</html>
