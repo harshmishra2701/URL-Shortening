@@ -1,27 +1,157 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Admin Panel</title>
+    <title>Admin Panel – URL Shortener</title>
+
+    <!-- BEAUTIFUL STYLING -->
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Poppins", sans-serif;
+            height: 100vh;
+            background-image: url("{{ url_for('static', filename='images/url_shortener_bg.jpg') }}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(6px);
+        }
+
+        .admin-box {
+            position: relative;
+            z-index: 10;
+            width: 800px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.18);
+            border-radius: 20px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0px 8px 35px rgba(0, 0, 0, 0.25);
+            color: white;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 30px;
+            margin-bottom: 25px;
+        }
+
+        .upload-box {
+            background: rgba(255, 255, 255, 0.35);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px dashed rgba(255,255,255,0.6);
+            cursor: pointer;
+        }
+
+        input[type="file"] {
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        button {
+            margin-top: 15px;
+            padding: 12px 25px;
+            background: linear-gradient(90deg, #6675FF, #5AB9FF);
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.25s;
+        }
+
+        button:hover {
+            transform: scale(1.04);
+            box-shadow: 0px 5px 15px rgba(0,0,0,0.25);
+        }
+
+        .export-link {
+            margin-top: 20px;
+            display: inline-block;
+            font-size: 17px;
+            font-weight: 600;
+            color: #fff;
+            text-decoration: underline;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 30px;
+            border-collapse: collapse;
+            background: rgba(255,255,255,0.15);
+            border-radius: 12px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.25);
+            color: white;
+            font-size: 15px;
+        }
+
+        th {
+            background: rgba(255,255,255,0.22);
+            font-size: 16px;
+            font-weight: bold;
+        }
+    </style>
 </head>
+
 <body>
 
-<h1>Admin – Import / Export JSON</h1>
+<div class="overlay"></div>
 
-<form method="POST" enctype="multipart/form-data">
-    <input type="file" name="json_file" required>
-    <button type="submit">Upload JSON</button>
-</form>
+<div class="admin-box">
 
-<br>
+    <h1>⚙ Admin Panel</h1>
 
-<a href="/export">Download All URLs (JSON)</a>
+    <!-- Upload JSON Section -->
+    <form method="POST" enctype="multipart/form-data">
+        <div class="upload-box">
+            <h3>Upload JSON File</h3>
+            <input type="file" name="json_file" required>
+            <br>
+            <button type="submit">Upload & Import</button>
+        </div>
+    </form>
 
-<h2>Stored URLs</h2>
-<ul>
-{% for url in urls %}
-    <li>{{ url.short_code }} — {{ url.original_url }} (Visits: {{ url.visit_count }})</li>
-{% endfor %}
-</ul>
+    <!-- Export Button -->
+    <a class="export-link" href="/export">⬇ Download All URLs (JSON)</a>
+
+    <!-- URL Table -->
+    <table>
+        <tr>
+            <th>Short Code</th>
+            <th>Original URL</th>
+            <th>Visits</th>
+        </tr>
+
+        {% for url in urls %}
+        <tr>
+            <td>{{ url.short_code }}</td>
+            <td>{{ url.original_url }}</td>
+            <td>{{ url.visit_count }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</div>
 
 </body>
 </html>

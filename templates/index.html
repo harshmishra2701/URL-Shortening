@@ -3,31 +3,168 @@
 <head>
     <title>URL Shortener</title>
     <link rel="stylesheet" href="/static/style.css">
+
+    <!-- BEAUTIFUL DESIGN ADDED -->
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Poppins", sans-serif;
+            height: 100vh;
+            background-image: url("{{ url_for('static', filename='images/url_shortener_bg.jpg') }}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Gradient overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(6px);
+        }
+
+        /* Glassmorphism Box */
+        .main-box {
+            position: relative;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.16);
+            border-radius: 18px;
+            padding: 40px 35px;
+            width: 450px;
+            box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(15px);
+            color: white;
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 25px;
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.85);
+            border: none;
+            font-size: 15px;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 15px;
+            padding: 12px;
+            background: linear-gradient(90deg, #6675FF, #5AB9FF);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.25s;
+        }
+
+        button:hover {
+            transform: scale(1.03);
+            box-shadow: 0px 6px 12px rgba(0,0,0,0.2);
+        }
+
+        .short-url {
+            background: rgba(255, 255, 255, 0.25);
+            padding: 12px;
+            margin-top: 15px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        h2 {
+            margin-top: 30px;
+            font-size: 20px;
+            font-weight: 500;
+            border-bottom: 1px solid rgba(255,255,255,0.4);
+            padding-bottom: 10px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 10px;
+            text-align: left;
+        }
+
+        li {
+            background: rgba(255,255,255,0.2);
+            padding: 10px;
+            border-radius: 10px;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        a {
+            color: #FFD;
+            font-weight: bold;
+        }
+
+        .delete-link {
+            float: right;
+            color: #ff6b6b;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .delete-link:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
+
 <body>
 
-<h1>Short URL Generator</h1>
+<div class="overlay"></div>
 
-<form method="POST">
-    <input type="text" name="original_url" placeholder="Enter URL" required>
-    <input type="text" name="custom_code" placeholder="Custom code (optional)">
-    <button type="submit">Shorten</button>
-</form>
+<div class="main-box">
 
-{% if new_url %}
-<p>Your Short URL: <a href="/{{ new_url.short_code }}">/{{ new_url.short_code }}</a></p>
-{% endif %}
+    <h1>✨ Short URL Generator</h1>
 
-<h2>Recent URLs</h2>
-<ul>
-    {% for url in urls %}
+    <form method="POST">
+        <input type="text" name="original_url" placeholder="Enter URL" required>
+        <input type="text" name="custom_code" placeholder="Custom code (optional)">
+        <button type="submit">Shorten URL</button>
+    </form>
+
+    {% if new_url %}
+    <div class="short-url">
+        Short URL:  
+        <a href="/{{ new_url.short_code }}">/{{ new_url.short_code }}</a>
+    </div>
+    {% endif %}
+
+    <h2>Recent URLs</h2>
+
+    <ul>
+        {% for url in urls %}
         <li>
-            {{ url.short_code }} → {{ url.original_url }}
-            (Visits: {{ url.visit_count }})
-            <a href="/delete/{{ url.short_code }}">Delete</a>
+            <strong>{{ url.short_code }}</strong> → {{ url.original_url }}
+            <a class="delete-link" href="/delete/{{ url.short_code }}">Delete</a>
+            <br>
+            <small>Visits: {{ url.visit_count }}</small>
         </li>
-    {% endfor %}
-</ul>
+        {% endfor %}
+    </ul>
+
+</div>
 
 </body>
 </html>
