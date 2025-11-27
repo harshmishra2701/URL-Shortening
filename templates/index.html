@@ -47,9 +47,19 @@
 
         h1 {
             margin-bottom: 25px;
-            font-size: 28px;
-            font-weight: 600;
+            font-size: 32px;
+            font-weight: 700;
+            background: linear-gradient(90deg, #000000, #444444, #000000);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 3s linear infinite;
         }
+        @keyframes shine {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
 
         input {
             width: 100%;
