@@ -60,14 +60,35 @@ def delete_url(short_code):
         db.session.delete(url)
         db.session.commit()
     return redirect("/")
-
-
 @app.route("/admin", methods=["GET", "POST"])
 def admin_page():
     if request.method == "POST":
-        json_file = request.files["json_file"]
-        data = json.load(json_file)
 
+        # Check if file is provided
+        if "json_file" not in request.files:
+            return "No file uploaded!", 400
+
+        json_file = request.files["json_file"]
+
+        
+        if json_file.filename == "":
+            return "Please select a JSON file!", 400
+
+        
+        if not json_file.filename.lower().endswith(".json"):
+            return "Invalid file type! Only .json files are allowed.", 400
+
+        
+        if json_file.content_type not in ["application/json", "text/json"]:
+            return "Invalid file format! Upload a valid JSON file.", 400
+
+       
+        try:
+            data = json.load(json_file)
+        except Exception:
+            return "Error reading JSON! File content is not valid JSON.", 400
+
+       
         for item in data:
             code = item["short_code"]
             existing = URL.query.filter_by(short_code=code).first()
@@ -80,13 +101,15 @@ def admin_page():
                     original_url=item["original_url"],
                     created_at=datetime.datetime.fromisoformat(item["created_at"]),
                     visit_count=item["visit_count"],
-                    meta=json.dumps(item["meta"])
+                    meta=json.dumps(item.get("meta", {}))
                 )
                 db.session.add(new_url)
 
         db.session.commit()
-        return "JSON Imported Successfully!"
 
+        return "JSON imported successfully!"
+
+   
     return render_template("admin.html", urls=URL.query.all())
 
 
