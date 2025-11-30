@@ -114,6 +114,31 @@
 </head>
 
 <body>
+<a href="/" class="panel-btn">User Panel</a>
+
+<style>
+.panel-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(255,255,255,0.25);
+    padding: 10px 20px;
+    border-radius: 12px;
+    backdrop-filter: blur(8px);
+    font-size: 15px;
+    font-weight: 600;
+    color: white;
+    text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.4);
+    z-index: 9999;
+    transition: 0.3s;
+}
+.panel-btn:hover {
+    background: rgba(255,255,255,0.4);
+    transform: scale(1.05);
+}
+</style>
+
 
 <div class="overlay"></div>
 
