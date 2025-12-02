@@ -1,55 +1,82 @@
-🚀 URL Shortener Web Application
+# 🔗 Short URL Generator  
+*A modern URL shortening web application built with Flask & MongoDB*
 
-A modern and lightweight URL Shortener built using Python, Flask, SQLite, and SQLAlchemy, with a beautiful startup-style UI.
-This app allows users to create short URLs, track visits, manage links, and import/export data through an admin panel.
+![Python](https://img.shields.io/badge/Python-3.10-blue.svg)
+![Flask](https://img.shields.io/badge/Flask-Web%20Framework-black.svg)
+![MongoDB](https://img.shields.io/badge/Database-MongoDB-green.svg)
+![License](https://img.shields.io/badge/License-MIT-yellow.svg)
+![Status](https://img.shields.io/badge/Status-Active-success.svg)
 
+---
 
-🌟 Features
-🔗 User Features
+## 📌 Overview
 
-Generate short URLs instantly
+**Short URL Generator** is a sleek, Bitly-style web application for creating short, shareable URLs.  
+It supports:
 
-Custom short-code option
+- URL shortening  
+- Custom alias (optional)  
+- QR Code generation  
+- Visit counting  
+- Admin panel to manage stored URLs  
+- JSON import/export  
+- Dark/Light Mode UI  
+- MongoDB storage  
+- Glassmorphism UI design  
 
-View list of recently created URLs
+This project is perfect for learning **Flask**, **MongoDB**, and building real-world **full-stack applications**.
 
-Click tracking (visit count)
+---
 
-Delete URLs
+## 🚀 Features
 
-Glassmorphism + startup-style UI
+### 🔹 User Features
+- Shorten any long URL  
+- Choose your own custom short code  
+- Generate QR code for each link  
+- One-click **Copy** button  
+- Beautiful animated UI  
+- Shows list of Recent URLs  
+- Auto-dark mode toggle  
 
-🛠 Admin Features
+### 🔹 Admin Features  
+- View all shortened URLs  
+- Delete entries  
+- Import URLs via JSON  
+- Export database to JSON  
+- Validates JSON before importing  
 
-Upload JSON file to import bulk URLs
+---
 
-Export all URLs to JSON format
+## 🧠 Short Code Generation Algorithm
 
-View all stored URLs with click counts
+The app uses a **Randomized Alphanumeric Short Code Generator**.
 
-Collision-safe import logic
+### 🔍 Algorithm Details
+- Uses Python's `string.ascii_letters` + `string.digits`
+- Randomly selects characters to create a short code
+- Ensures the code does NOT collide with an existing one in MongoDB  
+- If a collision occurs → regenerate until unique
 
-⚙️ Backend Features
+### 🔢 Example  
+```python
+import random, string
 
-Random unique short-code generation algorithm
+def generate_code(length=6):
+    chars = string.ascii_letters + string.digits
+    return ''.join(random.choice(chars) for _ in range(length))
 
-Flask routing and redirection
-
-SQLite database (file-based)
-
-SQLAlchemy ORM
-
-Clean and scalable folder structure
-
-| Component   | Technology                 |
-| ----------- | -------------------------- |
-| Language    | Python                     |
-| Framework   | Flask                      |
-| Database    | SQLite                     |
-| ORM         | SQLAlchemy                 |
-| Frontend    | HTML, CSS, Jinja Templates |
-| UI Style    | Glassmorphism, Gradient UI |
-| Data Format | JSON                       |
+🗃️ Tech Stack
+| Layer        | Technology                               |
+| ------------ | ---------------------------------------- |
+| Backend      | Flask (Python)                           |
+| Database     | MongoDB                                  |
+| Frontend     | HTML, CSS (Glassmorphism), Vanilla JS    |
+| QR Generator | `qrserver.com` API                       |
+| Hosting      | Local / PythonAnywhere / Render / Heroku |
+| Component   | Technology                                |
+| UI Style    | Glassmorphism, Gradient UI                |
+| Data Format | JSON                                      |
 
 
 📁 Project Folder Structure
@@ -183,3 +210,6 @@ Url Shortening:
     ![alt text](image-3.png)
     ![alt text](image-4.png)
     ![alt text](image-5.png)
+  
+👤 Author
+Harsh Mishra
