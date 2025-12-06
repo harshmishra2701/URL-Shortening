@@ -5,6 +5,26 @@ import json
 import datetime
 from flask import Flask, request, redirect, render_template, send_file
 from pymongo import MongoClient
+import re
+
+def sanitize_url(url):
+    
+    url = url.strip()
+
+    
+    url = re.sub(r"\s+", "", url)
+
+    return url
+
+
+def is_valid_url(url):
+    pattern = re.compile(
+        r"^(https?:\/\/)"        
+        r"([\w\-]+\.)+[\w\-]+"   
+        r"(\/[\w\-._~:/?#\[\]@!$&'()*+,;=%]*)?$",
+        re.IGNORECASE
+    )
+    return re.match(pattern, url)
 
 app = Flask(__name__)
 
@@ -16,7 +36,6 @@ db = client["url_shortener"]
 urls = db["urls"]   
 
 
-
 def generate_code(length=6):
     chars = string.ascii_letters + string.digits
     return ''.join(random.choice(chars) for _ in range(length))
@@ -26,37 +45,46 @@ def generate_code(length=6):
 @app.route("/", methods=["GET", "POST"])
 def index():
     new_short_url = None
+    error = None
 
     if request.method == "POST":
-        original_url = request.form.get("original_url")
-        custom_code = request.form.get("custom_code")
+        original_url = request.form.get("original_url", "")
 
+        # 🔹 SANITIZE INPUT
+        original_url = sanitize_url(original_url)
+
+        # 🔹 VALIDATE INPUT
         if not original_url:
-            all_urls = list(urls.find().sort("created_at", -1))
-            return render_template("index.html", urls=all_urls)
+            error = "URL cannot be empty."
 
-        short_code = custom_code if custom_code else generate_code()
+        elif not is_valid_url(original_url):
+            error = "Please enter a valid URL (must start with http:// or https://)."
 
-       
-        while urls.find_one({"short_code": short_code}):
+        else:
+            # Generate unique short code
             short_code = generate_code()
+            while urls.find_one({"short_code": short_code}):
+                short_code = generate_code()
 
-        doc = {
-            "short_code": short_code,
-            "original_url": original_url,
-            "created_at": datetime.datetime.utcnow(),
-            "visit_count": 0,
-            "meta": {}
-        }
+            doc = {
+                "short_code": short_code,
+                "original_url": original_url,
+                "created_at": datetime.datetime.utcnow(),
+                "visit_count": 0,
+                "meta": {}
+            }
 
-        urls.insert_one(doc)
-
-        
-        new_short_url = request.host_url + short_code
+            urls.insert_one(doc)
+            new_short_url = request.host_url + short_code
 
     all_urls = list(urls.find().sort("created_at", -1))
-    generate_qr = "generate_qr" in request.form
-    return render_template("index.html", urls=all_urls, new_short_url=new_short_url, generate_qr=generate_qr)
+    return render_template(
+        "index.html",
+        urls=all_urls,
+        new_short_url=new_short_url,
+        error=error
+    )
+
 
 @app.route("/<short_code>")
 def redirect_short(short_code):

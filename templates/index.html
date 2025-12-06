@@ -239,7 +239,13 @@ li {
 <div class="main-box">
 
     <h1>✨ Short URL Generator</h1>
-    
+
+    {% if error %}
+<div class="error-box">
+    {{ error }}
+</div>
+{% endif %}
+
     <form method="POST">
         <input type="text" name="original_url" placeholder="Enter URL" required>
         <label style="display:flex;align-items:center;gap:8px;margin-top:10px;">
