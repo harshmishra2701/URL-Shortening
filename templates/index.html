@@ -289,14 +289,18 @@ function copyURL() {
     {% for url in urls %}
     <li>
         <strong>{{ url.short_code }}</strong> → {{ url.original_url }}
-        <a class="delete-link" href="/delete/{{ url.short_code }}">Delete</a>
-        <br>
+       <a class="delete-link"
+   href="/delete/{{ url.short_code }}"
+   onclick="return confirmDelete('{{ url.short_code }}')">
+   Delete
+</a>
+         <br>
         <small>Visits: {{ url.visit_count }}</small>
     </li>
     {% endfor %}
 </ul>
 
-</div>
+</div>  
 
 <script>
 // ---- THEME SWITCH WITH MEMORY ----
@@ -322,6 +326,11 @@ function toggleTheme() {
 
 // Apply theme on page load
 applySavedTheme();
+</script>
+<script>
+function confirmDelete(shortCode) {
+    return confirm("Are you sure you want to delete this short URL?\n\nShort Code: " + shortCode);
+}
 </script>
 
 </body>
