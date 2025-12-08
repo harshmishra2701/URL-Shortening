@@ -7,13 +7,11 @@ from flask import Flask, request, redirect, render_template, send_file
 from pymongo import MongoClient
 import re
 
+
+
 def sanitize_url(url):
-    
     url = url.strip()
-
-    
     url = re.sub(r"\s+", "", url)
-
     return url
 
 
@@ -33,7 +31,7 @@ MONGO_URI = "mongodb://localhost:27017/"
 client = MongoClient(MONGO_URI)
 
 db = client["url_shortener"]
-urls = db["urls"]   
+urls = db["urls"]
 
 
 def generate_code(length=6):
@@ -46,14 +44,19 @@ def generate_code(length=6):
 def index():
     new_short_url = None
     error = None
+    qr_data = None  
+    qr_enabled = False
+    qr_type = "short"
 
     if request.method == "POST":
         original_url = request.form.get("original_url", "")
+        qr_enabled = request.form.get("generate_qr") == "on"
+        qr_type = request.form.get("qr_type", "short") if qr_enabled else "short"
 
-        # 🔹 SANITIZE INPUT
+       
         original_url = sanitize_url(original_url)
 
-        # 🔹 VALIDATE INPUT
+       
         if not original_url:
             error = "URL cannot be empty."
 
@@ -61,7 +64,7 @@ def index():
             error = "Please enter a valid URL (must start with http:// or https://)."
 
         else:
-            # Generate unique short code
+            
             short_code = generate_code()
             while urls.find_one({"short_code": short_code}):
                 short_code = generate_code()
@@ -75,15 +78,26 @@ def index():
             }
 
             urls.insert_one(doc)
+
+           
             new_short_url = request.host_url + short_code
 
+            
+            if qr_enabled:
+                qr_data = new_short_url if qr_type == "short" else original_url
+
     all_urls = list(urls.find().sort("created_at", -1))
+
     return render_template(
         "index.html",
         urls=all_urls,
         new_short_url=new_short_url,
-        error=error
+        error=error,
+        qr_data=qr_data,
+        qr_enabled=qr_enabled,
+        qr_type=qr_type
     )
+
 
 
 @app.route("/<short_code>")
@@ -95,6 +109,7 @@ def redirect_short(short_code):
 
     if doc:
         return redirect(doc["original_url"])
+
     return "Invalid or expired short URL", 404
 
 
@@ -104,11 +119,13 @@ def delete_url(short_code):
     urls.delete_one({"short_code": short_code})
     return redirect("/")
 
+
+
 @app.route("/admin", methods=["GET", "POST"])
 def admin_page():
+
     if request.method == "POST":
-        
-       
+
         if "json_file" not in request.files:
             return "No file uploaded!", 400
 
@@ -120,7 +137,6 @@ def admin_page():
         if not json_file.filename.lower().endswith(".json"):
             return "Invalid file type! Only .json allowed", 400
 
-        
         try:
             data = json.load(json_file)
         except:
@@ -131,13 +147,11 @@ def admin_page():
 
         required_fields = ["short_code", "original_url", "created_at", "visit_count", "meta"]
 
-        
         for index, item in enumerate(data):
 
             if not isinstance(item, dict):
                 return f"Item {index} must be an object", 400
 
-           
             for f in required_fields:
                 if f not in item:
                     return f"Missing field '{f}' at index {index}", 400
@@ -146,7 +160,7 @@ def admin_page():
                 return f"Invalid URL at index {index}", 400
 
             try:
-                created_at = datetime.datetime.fromisoformat(item["created_at"])
+                datetime.datetime.fromisoformat(item["created_at"])
             except:
                 return f"Invalid created_at timestamp at index {index}", 400
 
@@ -156,7 +170,6 @@ def admin_page():
             if not isinstance(item["meta"], dict):
                 return f"meta must be dictionary at index {index}", 400
 
-        
         for item in data:
 
             created_at = datetime.datetime.fromisoformat(item["created_at"])
@@ -164,7 +177,6 @@ def admin_page():
             existing = urls.find_one({"short_code": item["short_code"]})
 
             if existing:
-                
                 new_count = max(existing.get("visit_count", 0), item["visit_count"])
                 urls.update_one(
                     {"short_code": item["short_code"]},
@@ -202,6 +214,8 @@ def export_json():
         json.dump(export, f, indent=4)
 
     return send_file(path, as_attachment=True)
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)
