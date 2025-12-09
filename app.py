@@ -32,7 +32,7 @@ client = MongoClient(MONGO_URI)
 
 db = client["url_shortener"]
 urls = db["urls"]
-
+urls = db["urls"]
 
 def generate_code(length=6):
     chars = string.ascii_letters + string.digits

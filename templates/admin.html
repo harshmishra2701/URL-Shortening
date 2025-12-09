@@ -148,6 +148,47 @@
 
     <form method="POST" enctype="multipart/form-data">
         <div class="upload-box">
+            <!-- JSON FORMAT HELP BUTTON -->
+<button type="button" onclick="toggleJsonHelp()" 
+style="margin-top:15px; padding:10px 15px; border:none; 
+background:#4a90e2; color:white; border-radius:8px; cursor:pointer;">
+📄 View JSON Format
+</button>
+
+<!-- HIDDEN JSON HELP BOX -->
+<div id="jsonHelpBox" 
+style="display:none; margin-top:15px; background:rgba(255,255,255,0.2);
+padding:15px; border-radius:10px; backdrop-filter:blur(8px);">
+
+    <h3 style="margin-top:0;color: #000;">Valid JSON Upload Format</h3>
+
+    <pre style="black-space:pre-wrap; text-align:left; font-size:14px; color:#070707;">
+[
+  {
+    "short_code": "abc123",
+    "original_url": "https://example.com",
+    "created_at": "2025-02-01T10:00:00",
+    "visit_count": 5,
+    "meta": {}
+  }
+]
+    </pre>
+
+    <p style="font-size:14px; color:#0b0b0b;">
+    ✔ JSON must be a list of objects  
+    ✔ All fields are required  
+    ✔ Date must be in ISO format  
+    ✔ short_code must be unique  
+    </p>
+</div>
+
+<script>
+function toggleJsonHelp() {
+    let box = document.getElementById("jsonHelpBox");
+    box.style.display = box.style.display === "none" ? "block" : "none";
+}
+</script>
+
             <h3>Upload JSON File</h3>
             <input type="file" name="json_file" accept=".json" required>
            <br>
@@ -157,7 +198,7 @@
 
     
     <a class="export-link" href="/export">⬇ Download All URLs (JSON)</a>
-
+    
   
     <table>
         <tr>
