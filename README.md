@@ -1,5 +1,5 @@
-# 🔗 Short URL Generator  
-*A modern URL shortening web application built with Flask & MongoDB*
+## 🔗 Short URL Generator  
+*A modern, Bitly-style URL shortening web application built with Flask & MongoDB*
 
 ![Python](https://img.shields.io/badge/Python-3.10-blue.svg)
 ![Flask](https://img.shields.io/badge/Flask-Web%20Framework-black.svg)
@@ -11,52 +11,57 @@
 
 ## 📌 Overview
 
-**Short URL Generator** is a sleek, Bitly-style web application for creating short, shareable URLs.  
+**Short URL Generator** is a sleek, fast and modern URL shortening platform built using Flask and MongoDB.  
+It converts long URLs into short, shareable links — just like Bitly.  
+
 It supports:
-
 - URL shortening  
-- Custom alias (optional)  
-- QR Code generation  
+- QR Code generation (Short URL or Original URL)  
 - Visit counting  
-- Admin panel to manage stored URLs  
-- JSON import/export  
-- Dark/Light Mode UI  
-- MongoDB storage  
-- Glassmorphism UI design  
+- MongoDB database  
+- JSON import/export (Admin Panel)  
+- Input validation + sanitization  
+- Light/Dark Mode with memory  
+- Glassmorphism UI  
+- Copy-to-clipboard button  
+- Delete confirmation popup  
 
-This project is perfect for learning **Flask**, **MongoDB**, and building real-world **full-stack applications**.
+This project is perfect for learning **Flask**, **MongoDB**, **Web UI design**, and **clean backend development**.
 
 ---
 
 ## 🚀 Features
 
 ### 🔹 User Features
-- Shorten any long URL  
-- Choose your own custom short code  
-- Generate QR code for each link  
-- One-click **Copy** button  
-- Beautiful animated UI  
-- Shows list of Recent URLs  
-- Auto-dark mode toggle  
+- Convert long URLs into short, unique codes  
+- QR code generation (select **Short URL** or **Original URL**)  
+- Clean Bitly-style result card  
+- Copy button with animation  
+- Smooth URL validation and sanitization  
+- Auto Dark/Light Mode (saves preference)  
+- Mobile-friendly QR Codes  
+- Fully responsive design  
 
-### 🔹 Admin Features  
+### 🔹 Admin Panel Features  
 - View all shortened URLs  
-- Delete entries  
-- Import URLs via JSON  
+- Delete URLs (with confirmation popup)  
+- Import URLs using JSON file  
 - Export database to JSON  
-- Validates JSON before importing  
+- Shows JSON format guide  
+- Strict JSON validation  
 
 ---
 
 ## 🧠 Short Code Generation Algorithm
 
-The app uses a **Randomized Alphanumeric Short Code Generator**.
+The app uses a **Random Alphanumeric Short Code Generator**.
 
 ### 🔍 Algorithm Details
-- Uses Python's `string.ascii_letters` + `string.digits`
-- Randomly selects characters to create a short code
-- Ensures the code does NOT collide with an existing one in MongoDB  
-- If a collision occurs → regenerate until unique
+- Uses Python’s `string.ascii_letters + string.digits`
+- Randomly picks characters  
+- Generates a 6-character short ID  
+- Checks MongoDB to avoid duplicates  
+- If duplicate → regenerate automatically  
 
 ### 🔢 Example  
 ```python
@@ -135,17 +140,24 @@ Open your browser and visit:
 
 👉 http://127.0.0.1:5000/  — User Panel
 👉 http://127.0.0.1:5000/admin  — Admin Panel
-
 🔗 How the App Works
 ▶️ User Flow
 
-    Enter a long URL
+User enters a long URL
 
-    System generates a short, unique code
+System sanitizes + validates input
 
-    URL + code saved in database
+Generates a unique short code
 
-    User gets a short link like:
+Saves it in MongoDB
+
+Displays short URL + QR code
+
+When someone clicks the short link →
+
+Visit count increases
+
+User redirected to original URL
 
         http://127.0.0.1:5000/abc123
     Someone clicks it → visit count increases → redirected to original URL
@@ -203,8 +215,12 @@ Admin can download all URLs in the same JSON format.
 Screenshots:
 Home Page: 
     ![alt text](image-1.png)
+    ![alt text](Valid.png)
+    ![alt text](home.png)
 Admin Page:
     ![alt text](image-2.png)
+    ![alt text](admin.png)
+    ![alt text](admin2.png)
 
 Url Shortening:
     ![alt text](image-3.png)
