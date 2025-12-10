@@ -214,18 +214,20 @@ Admin can download all URLs in the same JSON format.
 
 Screenshots:
 Home Page: 
-    ![alt text](image-1.png)
-    ![alt text](Valid.png)
-    ![alt text](home.png)
+    ![home page](assets/images/image-1.png)
+    ![valid](assets/images/Valid.png)
+    ![home layout](assets/images/home.png)
+    ![Dark mode](assets/images/dark_mode.png)
 Admin Page:
-    ![alt text](image-2.png)
-    ![alt text](admin.png)
-    ![alt text](admin2.png)
+    ![Admin page](assets/images/image-2.png)
+    ![admin](assets/images/admin.png)
+    ![Jsonformat](assets/images/admin2.png)
 
 Url Shortening:
-    ![alt text](image-3.png)
-    ![alt text](image-4.png)
-    ![alt text](image-5.png)
+    ![Url](assets/images/image-3.png)
+    ![short URl](assets/images/image-4.png)
+    ![URl](assets/images/image-5.png)
+    ![bar code](assets/images/Image-6.png)
   
 👤 Author
 Harsh Mishra
