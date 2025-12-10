@@ -213,6 +213,7 @@ Example JSON file for bulk import:
 Admin can download all URLs in the same JSON format.
 
 Screenshots:
+<<<<<<< HEAD
 Home Page: 
     ![home page](assets/images/Image-1.png)
     ![valid](assets/images/Valid.png)
