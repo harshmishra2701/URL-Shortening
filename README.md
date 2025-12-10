@@ -214,7 +214,7 @@ Admin can download all URLs in the same JSON format.
 
 Screenshots:
 Home Page: 
-    ![home page](https://github.com/harshmishra2701/URL-Shortening/blob/creating-assets-folder-to-store-images/assets/images/Image-1.png)
+    ![home page](assets/images/Image-1.png)
     ![valid](assets/images/Valid.png)
     ![home layout](assets/images/home.png)
     ![Dark mode](assets/images/dark_mode.png)
