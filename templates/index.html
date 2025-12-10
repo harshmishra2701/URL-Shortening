@@ -4,143 +4,235 @@
     <title>URL Shortener</title>
     <link rel="stylesheet" href="/static/style.css">
 
-    <!-- BEAUTIFUL DESIGN ADDED -->
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: "Poppins", sans-serif;
-            height: 100vh;
-            background-image: url("{{ url_for('static', filename='images/url_shortener_bg.jpg') }}");
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* Gradient overlay */
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.45);
-            backdrop-filter: blur(6px);
-        }
-
-        /* Glassmorphism Box */
-        .main-box {
-            position: relative;
-            z-index: 10;
-            background: rgba(255, 255, 255, 0.16);
-            border-radius: 18px;
-            padding: 40px 35px;
-            width: 450px;
-            box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.25);
-            backdrop-filter: blur(15px);
-            color: white;
-            text-align: center;
-        }
-
-        h1 {
-            margin-bottom: 25px;
-            font-size: 32px;
-            font-weight: 700;
-            background: linear-gradient(90deg, #000000, #444444, #000000);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: shine 3s linear infinite;
-        }
-        @keyframes shine {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+<style>
+/* Default Light/Dark Theme Variables */
+:root {
+    --bg-overlay: rgba(0,0,0,0.45);
+    --glass-bg: rgba(255,255,255,0.16);
+    --text-color: white;
+    --input-bg: rgba(255,255,255,0.85);
+    --button-bg: linear-gradient(90deg, #6675FF, #5AB9FF);
+    --recent-bg: rgba(255,255,255,0.2);
 }
 
+/* DARK THEME (activated via JS) */
+.dark-theme {
+    --bg-overlay: rgba(0,0,0,0.75);
+    --glass-bg: rgba(0,0,0,0.4);
+    --text-color: #f3f3f3;
+    --input-bg: rgba(50,50,50,0.8);
+    --button-bg: linear-gradient(90deg, #4444ff, #2266ff);
+    --recent-bg: rgba(255,255,255,0.1);
+}
 
-        input {
-            width: 100%;
-            padding: 12px;
-            margin-top: 10px;
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.85);
-            border: none;
-            font-size: 15px;
-        }
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Poppins", sans-serif;
+    height: 100vh;
+    background-image: url("{{ url_for('static', filename='images/url_shortener_bg.jpg') }}");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-color);
+}
 
-        button {
-            width: 100%;
-            margin-top: 15px;
-            padding: 12px;
-            background: linear-gradient(90deg, #6675FF, #5AB9FF);
-            border: none;
-            border-radius: 10px;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: 0.25s;
-        }
+/* Overlay */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-overlay);
+    backdrop-filter: blur(6px);
+}
 
-        button:hover {
-            transform: scale(1.03);
-            box-shadow: 0px 6px 12px rgba(0,0,0,0.2);
-        }
+/* Glass Box */
+.main-box {
+    position: relative;
+    z-index: 10;
+    background: var(--glass-bg);
+    border-radius: 18px;
+    padding: 40px 35px;
+    width: 450px;
+    box-shadow: 0px 8px 30px rgba(0,0,0,0.25);
+    backdrop-filter: blur(15px);
+    color: var(--text-color);
+    text-align: center;
+}
 
-        .short-url {
-            background: rgba(255, 255, 255, 0.25);
-            padding: 12px;
-            margin-top: 15px;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 600;
-        }
+h1 {
+    margin-bottom: 25px;
+    font-size: 32px;
+    font-weight: 700;
+    background: linear-gradient(90deg, #000000, #444444, #000000);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
 
-        h2 {
-            margin-top: 30px;
-            font-size: 20px;
-            font-weight: 500;
-            border-bottom: 1px solid rgba(255,255,255,0.4);
-            padding-bottom: 10px;
-        }
+input {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border-radius: 10px;
+    background: var(--input-bg);
+    border: none;
+    font-size: 15px;
+}
 
-        ul {
-            list-style: none;
-            padding: 0;
-            margin-top: 10px;
-            text-align: left;
-        }
+button {
+    width: 100%;
+    margin-top: 15px;
+    padding: 12px;
+    background: var(--button-bg);
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.25s;
+}
 
-        li {
-            background: rgba(255,255,255,0.2);
-            padding: 10px;
-            border-radius: 10px;
-            margin-top: 10px;
-            font-size: 14px;
-        }
+button:hover {
+    transform: scale(1.03);
+}
 
-        a {
-            color: #FFD;
-            font-weight: bold;
-        }
+/******** BITLY RESULT CARD *********/
 
-        .delete-link {
-            float: right;
-            color: #ff6b6b;
-            text-decoration: none;
-            font-weight: bold;
-        }
+.result-card {
+    width: 100%;
+    margin-top: 20px;
+    padding: 20px;
+    background: rgba(255,255,255,0.20);
+    border-radius: 18px;
+    backdrop-filter: blur(12px);
+    text-align: center;
+    animation: pop 0.35s ease-out;
+    color: white;
+}
 
-        .delete-link:hover {
-            text-decoration: underline;
-        }
-    </style>
+@keyframes pop {
+    0% { transform: scale(0.7); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.label {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.url-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    background: rgba(0,0,0,0.25);
+    padding: 12px;
+    border-radius: 12px;
+}
+
+.url-box a {
+    font-size: 18px;
+    font-weight: 600;
+    color: #00eaff;
+}
+
+.copy-btn {
+    padding: 8px 15px;
+    border: none;
+    background: #007bff;
+    color: white;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.qr-section img {
+    width: 140px;
+    margin-top: 15px;
+    border-radius: 10px;
+}
+
+/******** RECENT URLS ********/
+
+h2 {
+    margin-top: 30px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.5);
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    margin-top: 10px;
+    padding: 12px;
+    background: var(--recent-bg);
+    border-radius: 10px;
+    font-size: 14px;
+}
+
+.delete-link {
+    float: right;
+    color: #ff6b6b;
+    font-weight: bold;
+}
+
+.delete-link:hover {
+    text-decoration: underline;
+}
+
+/******** PANEL BUTTON ********/
+
+.panel-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(255,255,255,0.25);
+    padding: 10px 20px;
+    border-radius: 12px;
+    backdrop-filter: blur(8px);
+    color: white;
+    text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.4);
+    z-index: 9999;
+}
+
+/******** THEME SWITCH ********/
+
+.theme-toggle {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background: rgba(255,255,255,0.25);
+    padding: 10px 18px;
+    border-radius: 12px;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.4);
+    cursor: pointer;
+    font-weight: 600;
+    color: white;
+    z-index: 9999;
+}
+
+.theme-toggle:hover {
+    transform: scale(1.05);
+}
+</style>
 </head>
 
 <body>
+
+<a href="/admin" class="panel-btn">Admin Panel</a>
+<div class="theme-toggle" onclick="toggleTheme()">🌙 Dark Mode</div>
 
 <div class="overlay"></div>
 
@@ -148,16 +240,51 @@
 
     <h1>✨ Short URL Generator</h1>
 
+    {% if error %}
+    <div class="error-box">{{ error }}</div>
+    {% endif %}
+
     <form method="POST">
         <input type="text" name="original_url" placeholder="Enter URL" required>
+
+        <label style="display:flex;align-items:center;gap:8px;margin-top:10px;">
+            <input type="checkbox" id="qr_checkbox" name="generate_qr" onclick="toggleQrOptions()" style="width:16px;height:16px;">
+            <span>Generate QR Code</span>
+        </label>
+
+        <!-- QR TYPE OPTIONS (Hidden until checkbox is checked) -->
+        <div id="qr_options" style="display:none; margin-top:10px; text-align:left;">
+            <label style="display:flex;align-items:center;gap:8px;">
+                <input type="radio" name="qr_type" value="short" checked>
+                <span>Shortened </span>
+            </label>
+
+            <label style="display:flex;align-items:center;gap:8px; margin-top:5px;">
+                <input type="radio" name="qr_type" value="original">
+                <span>Original</span>
+            </label>
+        </div>
+
         <button type="submit">Shorten URL</button>
     </form>
 
-    {% if new_url %}
-    <div class="short-url">
-        Short URL:  
-        <a href="/{{ new_url.short_code }}">/{{ new_url.short_code }}</a>
+    {% if new_short_url %}
+    <div class="result-card">
+        <p class="label">Your Short URL</p>
+
+        <div class="url-box">
+            <a href="{{ new_short_url }}" target="_blank" id="short-url">{{ new_short_url }}</a>
+            <button class="copy-btn" onclick="copyURL()">Copy</button>
+        </div>
+
+        {% if qr_data %}
+        <div class="qr-section">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=140x140&data={{ qr_data }}">
+            <p>Scan QR Code</p>
+        </div>
+        {% endif %}
     </div>
+
     {% endif %}
 
     <h2>Recent URLs</h2>
@@ -166,7 +293,7 @@
         {% for url in urls %}
         <li>
             <strong>{{ url.short_code }}</strong> → {{ url.original_url }}
-            <a class="delete-link" href="/delete/{{ url.short_code }}">Delete</a>
+            <a class="delete-link" href="/delete/{{ url.short_code }}" onclick="return confirmDelete('{{ url.short_code }}')">Delete</a>
             <br>
             <small>Visits: {{ url.visit_count }}</small>
         </li>
@@ -174,6 +301,53 @@
     </ul>
 
 </div>
+
+<script>
+function toggleQrOptions() {
+    const checkbox = document.getElementById("qr_checkbox");
+    const options = document.getElementById("qr_options");
+    options.style.display = checkbox.checked ? "block" : "none";
+}
+
+function copyURL() {
+    navigator.clipboard.writeText(document.getElementById("short-url").innerText);
+    document.querySelector(".copy-btn").innerText = "Copied!";
+    setTimeout(() => {
+        document.querySelector(".copy-btn").innerText = "Copy";
+    }, 1200);
+}
+</script>
+
+<script>
+// ---- THEME SWITCH WITH MEMORY ----
+function applySavedTheme() {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "dark") {
+        document.body.classList.add("dark-theme");
+        document.querySelector(".theme-toggle").innerText = "☀️ Light Mode";
+    } else {
+        document.body.classList.remove("dark-theme");
+        document.querySelector(".theme-toggle").innerText = "🌙 Dark Mode";
+    }
+}
+
+function toggleTheme() {
+    const isDark = document.body.classList.toggle("dark-theme");
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+
+    document.querySelector(".theme-toggle").innerText =
+        isDark ? "☀️ Light Mode" : "🌙 Dark Mode";
+}
+
+// Apply theme on page load
+applySavedTheme();
+</script>
+
+<script>
+function confirmDelete(shortCode) {
+    return confirm("Are you sure you want to delete this short URL?\n\nShort Code: " + shortCode);
+}
+</script>
 
 </body>
 </html>

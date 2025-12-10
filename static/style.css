@@ -7,3 +7,123 @@ input, button {
     padding: 8px;
     margin: 5px;
 }
+input {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border-radius: 10px;
+    background: var(--input-bg);
+    color: var(--input-text-color);   
+    border: none;
+    font-size: 15px;
+}
+.error-box {
+    margin-bottom: 15px;
+    padding: 10px;
+    background: rgba(255, 0, 0, 0.2);
+    color: #ff4d4d;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+:root {
+    --bg-overlay: rgba(0,0,0,0.45);
+    --glass-bg: rgba(255,255,255,0.16);
+    --text-color: black;
+    --input-bg: rgba(255,255,255,0.85);
+    --input-text-color: #000;   
+}
+
+
+.result-card {
+    width: 80%;
+    margin-top: 20px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 18px;
+    backdrop-filter: blur(10px);
+    text-align: center;
+    animation: pop 0.4s ease-out;
+    color: #fff;
+}
+.main-box, .result-card, .recent-box {
+    width: 90%;
+    max-width: 450px;  /* prevents layout shift */
+    margin: 10px auto;
+}
+
+.dark-theme h1 {
+    background: linear-gradient(90deg, #ffffff, #dddddd, #ffffff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0px 0px 10px rgba(255,255,255,0.4);
+}
+.dark-theme {
+    --bg-overlay: rgba(0,0,0,0.75);
+    --glass-bg: rgba(0,0,0,0.4);
+    --text-color: #fff;
+    --input-bg: rgba(50,50,50,0.8);
+    --input-text-color: #fff;   
+}
+
+
+
+@keyframes pop {
+    0% { transform: scale(0.7); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.label {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.url-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 12px 15px;
+    border-radius: 12px;
+}
+
+.url-box a {
+    font-size: 18px;
+    font-weight: 600;
+    color: #00eaff;
+    text-decoration: none;
+}
+
+.copy-btn {
+    padding: 8px 15px;
+    border: none;
+    background: #007bff;
+    color: #fff;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.copy-btn:hover {
+    background: #0056cc;
+}
+
+
+.qr-section {
+    margin-top: 20px;
+}
+
+.qr-section img {
+    width: 140px;
+    height: 140px;
+    border-radius: 10px;
+}
+
+.qr-label {
+    margin-top: 8px;
+    color: #eee;
+    font-size: 14px;
+}
