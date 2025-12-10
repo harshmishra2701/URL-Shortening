@@ -6,8 +6,8 @@ import datetime
 from flask import Flask, request, redirect, render_template, send_file
 from pymongo import MongoClient
 import re
-
-
+from dotenv import load_dotenv
+load_dotenv()
 
 def sanitize_url(url):
     url = url.strip()
@@ -27,9 +27,9 @@ def is_valid_url(url):
 app = Flask(__name__)
 
 
-MONGO_URI = "mongodb://localhost:27017/"
+MONGO_URI = os.getenv("MONGO_URI")
 client = MongoClient(MONGO_URI)
-
+    
 db = client["url_shortener"]
 urls = db["urls"]
 urls = db["urls"]
