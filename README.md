@@ -215,8 +215,7 @@ Admin can download all URLs in the same JSON format.
 Screenshots:
 <<<<<<< HEAD
 Home Page: 
-    # ![home page](/assets/images/Image-1.png)
-    <img src="assets/images/Image-1.png"alt="home page"/>
+    ![home page](assets/images/Image-1.png)
     ![valid](./assets/images/Valid.png)
     ![home layout](./assets/images/home.png)
     ![Dark mode](./assets/images/dark_mode.png)
