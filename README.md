@@ -1,3 +1,4 @@
+
 ## 🔗 Short URL Generator  
 *A modern, Bitly-style URL shortening web application built with Flask & MongoDB*
 
@@ -70,7 +71,7 @@ import random, string
 def generate_code(length=6):
     chars = string.ascii_letters + string.digits
     return ''.join(random.choice(chars) for _ in range(length))
-
+```
 🗃️ Tech Stack
 | Layer        | Technology                               |
 | ------------ | ---------------------------------------- |
@@ -81,8 +82,7 @@ def generate_code(length=6):
 | Hosting      | Local / PythonAnywhere / Render / Heroku |
 | Component   | Technology                                |
 | UI Style    | Glassmorphism, Gradient UI                |
-| Data Format | JSON                                      |
-
+| Data Format | JSON                                  
 
 📁 Project Folder Structure
 
@@ -213,14 +213,12 @@ Example JSON file for bulk import:
 Admin can download all URLs in the same JSON format.
 
 Screenshots:
-<<<<<<< HEAD
 Home Page: 
     ![home page](./assets/images/Image-1.png)
     ![valid](./assets/images/Valid.png)
     ![home layout](./assets/images/home.png)
-    ![Dark mode](./assets/images/dark_mode.png)
+    ![Dark mode](./assets/images/Dark_mode.png)
 Admin Page:
-    ![Admin page](./assets/images/Image-2.png)
     ![admin](./assets/images/admin.png)
     ![Jsonformat](./assets/images/admin2.png)
 
@@ -229,6 +227,6 @@ Url Shortening:
     ![short URl](./assets/images/image-4.png)
     ![URl](./assets/images/image-5.png)
     ![bar code](./assets/images/Image-6.png)
-  
+  [📜 License](LICENSE)
 👤 Author
 Harsh Mishra
