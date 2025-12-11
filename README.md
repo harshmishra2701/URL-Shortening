@@ -225,7 +225,7 @@ Admin Page:
 Url Shortening:
     ![Url](./assets/images/Image-3.png)
     ![short URl](./assets/images/image-4.png)
-    ![URl](./assets/images/image-5.png)
+    ![URl](assets/images/Image-5.png)
     ![bar code](./assets/images/Image-6.png)
 
 📜License
