@@ -274,13 +274,14 @@ li {
 
         <div class="url-box">
             <a href="{{ new_short_url }}" target="_blank" id="short-url">{{ new_short_url }}</a>
-            <button class="copy-btn" onclick="copyURL()">Copy</button>
+            <button class="copy-btn" onclick="copyURL()">📋</button>
         </div>
 
         {% if qr_data %}
         <div class="qr-section">
-            <img src="https://api.qrserver.com/v1/create-qr-code/?size=140x140&data={{ qr_data }}">
+            <img src="{{ qr_image }}"alt="QR Code">
             <p>Scan QR Code</p>
+            
         </div>
         {% endif %}
     </div>
@@ -311,9 +312,9 @@ function toggleQrOptions() {
 
 function copyURL() {
     navigator.clipboard.writeText(document.getElementById("short-url").innerText);
-    document.querySelector(".copy-btn").innerText = "Copied!";
+    document.querySelector(".copy-btn").innerText = "💾";
     setTimeout(() => {
-        document.querySelector(".copy-btn").innerText = "Copy";
+        document.querySelector(".copy-btn").innerText = "📋";
     }, 1200);
 }
 </script>
